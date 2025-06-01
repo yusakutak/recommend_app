@@ -1,0 +1,22 @@
+<%# これはパーシャル機能を使ってレストフルな環境を作るために作ったファイル 
+ * このファイルはapplication.html.erbのrenderERBメソッドで読み込まれる%>
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "recommend app", root_path, id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Form", form_path %></li>
+        <% if user_signed_in? %>
+          <li>
+            <%= form_with url: destroy_user_session_path, method: :delete, local: true do %>
+              <button type="submit" class="btn btn-link" style="padding:0;">Log out</button>
+            <% end %>
+          </li>
+        <% else %>
+          <li><%= link_to "Log in", new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>

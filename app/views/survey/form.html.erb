@@ -1,0 +1,97 @@
+<%# 仮置き　%>
+<h1>選択肢</h1>
+<%= form_with url: "/home", method: :post, local: true do |f| %>
+<p>和食<br>
+　　<input type="radio" name="washoku" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="washoku" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="washoku" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="washoku" value="1">
+    <label for="inq4">苦手</label>		
+</p>
+<p>洋食<br>
+　　<input type="radio" name="youshoku" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="youshoku" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="youshoku" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="youshoku" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>イタリアン<br>
+　　<input type="radio" name="italian" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="italian" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="italian" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="italian" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>焼肉<br>
+　　<input type="radio" name="yakiniku" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="yakiniku" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="yakiniku" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="yakiniku" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>フレンチ<br>
+　　<input type="radio" name="french" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="french" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="french" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="french" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>鍋料理<br>
+　　<input type="radio" name="nabe" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="nabe" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="nabe" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="nabe" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>地中海料理<br>
+　　<input type="radio" name="medit" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="medit" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="medit" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="medit" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>ファストフード<br>
+　　<input type="radio" name="fast" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="fast" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="fast" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="fast" value="1">
+    <label for="inq4">苦手</label>
+</p>
+<p>スイーツ<br>
+　<input type="radio" name="sweet" value="4">
+　　<label for="inq1">好き</label>
+		<input type="radio" name="sweet" value="3">
+    <label for="inq2">まあ好き</label>
+		<input type="radio" name="sweet" value="2">
+    <label for="inq3">食べれはする</label>
+    <input type="radio" name="sweet" value="1">
+    <label for="inq4">苦手</label>	
+</p>
+
+<%= submit_tag "送信" %>
+<% end %>
+

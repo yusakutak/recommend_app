@@ -13,7 +13,6 @@ class ActiveSupport::TestCase
 
   # アプリケーションヘルパーをテストで使用する
   include ApplicationHelper
-  
+
   # （すべてのテストで使うその他のヘルパーメソッドは省略）
 end
-

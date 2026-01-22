@@ -64,7 +64,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   # テストのコマンドラインに色付け、単体テスト自動化のgem
-  gem 'minitest-reporters'
+  gem "minitest-reporters"
   gem "guard"
   gem "guard-minitest"
   # 統合テストのためのgem

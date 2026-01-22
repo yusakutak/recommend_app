@@ -88,7 +88,7 @@ Depending on your application's configuration some manual setup may be required:
 ・レビュー後のユーザ嗜好情報の自動調整
 
 ```mermaid
-    erdiagram
+    erDiagram
     %% ユーザーと嗜好・行動
     USERS ||--o{ SURVEY_ANSWERS : "1:N (初期嗜好回答)"
     USERS ||--o| PREFERENCE_PARAMETERS : "1:1 (学習済みパラメータ)"

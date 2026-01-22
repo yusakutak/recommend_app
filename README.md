@@ -6,67 +6,84 @@ erDiagram
     USERS ||--o{ FRIENDSHIPS : "申請・承認"
     USERS ||--o{ GROUP_MEMBERS : "所属"
     USERS ||--o{ MESSAGES : "発言"
-
     GROUPS ||--o{ GROUP_MEMBERS : "メンバー構成"
     GROUPS ||--o{ MESSAGES : "チャット蓄積"
-
     RESTAURANTS ||--o{ REVIEWS : "評価対象"
     RESTAURANTS ||--o{ VISIT_HISTORIES : "訪問対象"
-
+    
     USERS {
         bigint id PK
         string nickname "ニックネーム"
         string email "メールアドレス"
         string encrypted_password "認証用"
+        datetime created_at "登録日時"
     }
-
+    
     FRIENDSHIPS {
         bigint id PK
         bigint user_id FK "申請者ID"
         bigint friend_id FK "承認者ID"
         string status "pending / accepted"
+        datetime created_at "申請日時"
+        datetime accepted_at "承認日時"
     }
-
+    
     GROUPS {
         bigint id PK
         string name "グループ名"
-        datetime created_at
+        datetime created_at "作成日時"
     }
-
+    
     GROUP_MEMBERS {
         bigint id PK
-        bigint user_id FK
-        bigint group_id FK
+        bigint user_id FK "メンバーのユーザーID"
+        bigint group_id FK "所属グループID"
+        datetime joined_at "参加日時"
     }
-
+    
     MESSAGES {
         bigint id PK
-        bigint user_id FK "発言者"
-        bigint group_id FK "送信先グループ"
+        bigint user_id FK "発言者ID"
+        bigint group_id FK "送信先グループID"
         text content "メッセージ内容"
-        datetime created_at
+        datetime created_at "投稿日時"
     }
-
+    
     PREFERENCE_PARAMETERS {
         bigint id PK
         bigint user_id FK
-        jsonb cuisine_preferences "14ジャンルのスコア"
+        jsonb cuisine_preferences "14ジャンルのスコア(0-10)"
         boolean auto_update_enabled "自動更新フラグ"
+        datetime last_updated_at "最終更新日時"
+        datetime created_at "初回設定日時"
     }
-
+    
     REVIEWS {
         bigint id PK
-        bigint user_id FK
-        bigint restaurant_id FK
-        integer rating "5段階評価"
-        text comment
+        bigint user_id FK "投稿者ID"
+        bigint restaurant_id FK "対象レストランID"
+        integer rating "5段階評価(1-5)"
+        text comment "コメント"
+        datetime created_at "投稿日時"
     }
-
+    
     VISIT_HISTORIES {
         bigint id PK
-        bigint user_id FK
-        bigint restaurant_id FK
-        datetime visited_at
+        bigint user_id FK "訪問者ID"
+        bigint restaurant_id FK "訪問先レストランID"
+        datetime visited_at "訪問日時"
+    }
+    
+    RESTAURANTS {
+        bigint id PK
+        string name "店名"
+        string cuisine_type "ジャンル(14種類)"
+        string address "住所"
+        float latitude "緯度"
+        float longitude "経度"
+        string phone "電話番号"
+        text description "店舗説明"
+        datetime created_at "登録日時"
     }
 ```
 

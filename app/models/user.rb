@@ -7,4 +7,7 @@ class User < ApplicationRecord
 
   has_many :preferences
   has_many :categories, through: :preferences
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "user_id",
+                                  dependent:   :destroy
 end

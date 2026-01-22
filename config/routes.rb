@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "users/show"
   devise_for :users, controllers: {
   # ログイン・ログアウト
     sessions: 'users/sessions',             
@@ -7,6 +8,12 @@ Rails.application.routes.draw do
     
     confirmations: 'users/confirmations'
   }
+
+  resources :users, only: [:show]
+
   get "/form", to: "survey#form"
+  get "/friends", to: "survey#friends"
+  get "/groups", to: "survey#groups"
+  get "/search", to: "survey#search"
   root "survey#home"
 end

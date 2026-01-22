@@ -1,36 +1,72 @@
 ```mermaid
 erDiagram
     USERS ||--o{ REVIEWS : "投稿"
-    USERS ||--o| PREFERENCE_PARAMETERS : "学習値"
-    USERS ||--o{ VISIT_HISTORIES : "履歴"
-    RESTAURANTS ||--o{ REVIEWS : "評価"
-    RESTAURANTS ||--o{ VISIT_HISTORIES : "訪問"
+    USERS ||--o| PREFERENCE_PARAMETERS : "学習値保持"
+    USERS ||--o{ VISIT_HISTORIES : "訪問記録"
+    USERS ||--o{ FRIENDSHIPS : "申請・承認"
+    USERS ||--o{ GROUP_MEMBERS : "所属"
+    USERS ||--o{ MESSAGES : "発言"
+
+    GROUPS ||--o{ GROUP_MEMBERS : "メンバー構成"
+    GROUPS ||--o{ MESSAGES : "チャット蓄積"
+
+    RESTAURANTS ||--o{ REVIEWS : "評価対象"
+    RESTAURANTS ||--o{ VISIT_HISTORIES : "訪問対象"
 
     USERS {
         bigint id PK
-        string nickname
-        string email
+        string nickname "ニックネーム"
+        string email "メールアドレス"
+        string encrypted_password "認証用"
     }
-    RESTAURANTS {
+
+    FRIENDSHIPS {
         bigint id PK
-        string name
-        string category
+        bigint user_id FK "申請者ID"
+        bigint friend_id FK "承認者ID"
+        string status "pending / accepted"
     }
+
+    GROUPS {
+        bigint id PK
+        string name "グループ名"
+        datetime created_at
+    }
+
+    GROUP_MEMBERS {
+        bigint id PK
+        bigint user_id FK
+        bigint group_id FK
+    }
+
+    MESSAGES {
+        bigint id PK
+        bigint user_id FK "発言者"
+        bigint group_id FK "送信先グループ"
+        text content "メッセージ内容"
+        datetime created_at
+    }
+
+    PREFERENCE_PARAMETERS {
+        bigint id PK
+        bigint user_id FK
+        jsonb cuisine_preferences "14ジャンルのスコア"
+        boolean auto_update_enabled "自動更新フラグ"
+    }
+
     REVIEWS {
         bigint id PK
         bigint user_id FK
         bigint restaurant_id FK
-        integer rating
+        integer rating "5段階評価"
+        text comment
     }
-    PREFERENCE_PARAMETERS {
-        bigint id PK
-        bigint user_id FK
-        jsonb cuisine_preferences
-    }
+
     VISIT_HISTORIES {
         bigint id PK
         bigint user_id FK
         bigint restaurant_id FK
+        datetime visited_at
     }
 ```
 

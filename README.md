@@ -1,4 +1,38 @@
-# README
+```mermaid
+erDiagram
+    USERS ||--o{ REVIEWS : "投稿"
+    USERS ||--o| PREFERENCE_PARAMETERS : "学習値"
+    USERS ||--o{ VISIT_HISTORIES : "履歴"
+    RESTAURANTS ||--o{ REVIEWS : "評価"
+    RESTAURANTS ||--o{ VISIT_HISTORIES : "訪問"
+
+    USERS {
+        bigint id PK
+        string nickname
+        string email
+    }
+    RESTAURANTS {
+        bigint id PK
+        string name
+        string category
+    }
+    REVIEWS {
+        bigint id PK
+        bigint user_id FK
+        bigint restaurant_id FK
+        integer rating
+    }
+    PREFERENCE_PARAMETERS {
+        bigint id PK
+        bigint user_id FK
+        jsonb cuisine_preferences
+    }
+    VISIT_HISTORIES {
+        bigint id PK
+        bigint user_id FK
+        bigint restaurant_id FK
+    }
+```
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
@@ -86,39 +120,3 @@ Depending on your application's configuration some manual setup may be required:
 ・フィードバック機能(ユーザが本アプリを利用した際の意見を入力する機能)
 ・各ユーザの嗜好パラメータ確認機能(アンケート機能の嗜好情報がベース)
 ・レビュー後のユーザ嗜好情報の自動調整
-
-```mermaid
-erDiagram
-    USERS ||--o{ REVIEWS : &quot;投稿&quot;
-    USERS ||--o| PREFERENCE_PARAMETERS : &quot;学習値&quot;
-    USERS ||--o{ VISIT_HISTORIES : &quot;履歴&quot;
-    RESTAURANTS ||--o{ REVIEWS : &quot;評価&quot;
-    RESTAURANTS ||--o{ VISIT_HISTORIES : &quot;訪問&quot;
-
-    USERS {
-        bigint id PK
-        string nickname
-        string email
-    }
-    RESTAURANTS {
-        bigint id PK
-        string name
-        string category
-    }
-    REVIEWS {
-        bigint id PK
-        bigint user_id FK
-        bigint restaurant_id FK
-        integer rating
-    }
-    PREFERENCE_PARAMETERS {
-        bigint id PK
-        bigint user_id FK
-        jsonb cuisine_preferences
-    }
-    VISIT_HISTORIES {
-        bigint id PK
-        bigint user_id FK
-        bigint restaurant_id FK
-    }
-```

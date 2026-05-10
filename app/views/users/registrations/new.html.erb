@@ -1,34 +1,45 @@
-<h1>新規登録</h1>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="text-center fw-bold mb-4"><i class="bi bi-person-plus me-2"></i>新規登録</h3>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
-  
-  <div class="field">
-  <%= f.label :"名前" %><br />
-    <%= f.text_field :name, class: "session-field", autofocus: true, autocomplete: "name" %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= render "users/shared/error_messages", resource: resource %>
+
+          <div class="mb-3">
+            <%= f.label :name, "名前", class: "form-label fw-semibold" %>
+            <%= f.text_field :name, class: "form-control", autofocus: true, autocomplete: "name", placeholder: "山田 太郎" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :email, "メールアドレス", class: "form-label fw-semibold" %>
+            <%= f.email_field :email, class: "form-control", autocomplete: "email", placeholder: "example@example.com" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :password, "パスワード", class: "form-label fw-semibold" %>
+            <% if @minimum_password_length %>
+              <small class="text-muted">(<%= @minimum_password_length %>文字以上)</small>
+            <% end %>
+            <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :password_confirmation, "パスワード確認", class: "form-label fw-semibold" %>
+            <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+          </div>
+
+          <div class="d-grid mt-4">
+            <%= f.submit "アカウント作成", class: "btn btn-primary btn-lg" %>
+          </div>
+        <% end %>
+
+        <hr>
+        <div class="text-center">
+          <%= link_to "すでにアカウントをお持ちの方はこちら", new_user_session_path %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :"Ｅメール" %><br />
-    <%= f.email_field :email, class: "session-field", autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :"パスワード" %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> 文字以上)</em>
-    <% end %><br />
-    <%= f.password_field :password, class: "session-field", autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :"パスワード確認用" %><br />
-    <%= f.password_field :password_confirmation, class: "session-field", autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "アカウント作成", class: "btn btn-primary session-field"  %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

@@ -1,0 +1,115 @@
+/* カスタムスタイル (Bootstrap 5 ベース) */
+
+:root {
+  --bs-primary: #e74c3c;
+}
+
+body {
+  background-color: #f8f9fa;
+}
+
+/* ナビゲーション */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+/* ヒーローセクション */
+.hero-section {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  padding: 80px 0;
+  border-radius: 0 0 20px 20px;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* カード */
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  border-radius: 12px;
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 2px solid #f0f0f0;
+  font-weight: 600;
+}
+
+/* レストランカード */
+.restaurant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  transition: all .2s ease;
+}
+
+/* フォーム */
+.form-control:focus,
+.form-select:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+}
+
+/* ボタン */
+.btn-primary {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-primary:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* プログレスバー */
+.progress {
+  height: 20px;
+  border-radius: 10px;
+}
+
+/* チャット */
+.chat-box {
+  max-height: 400px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.chat-message {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.chat-message.own {
+  background: #e8f4f8;
+  text-align: right;
+}
+
+/* 星評価 */
+.star-rating {
+  color: #f39c12;
+  font-size: 1.2rem;
+}
+
+/* セクション間余白 */
+.section-gap {
+  margin-bottom: 2rem;
+}
+
+/* フレンド申請バッジ */
+.pending-badge {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .6; }
+}

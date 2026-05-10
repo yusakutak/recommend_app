@@ -1,0 +1,23 @@
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-chat-square-heart me-2"></i>フィードバック</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-4">アプリへのご意見・ご要望をお聞かせください。</p>
+        <%= form_with model: @feedback do |f| %>
+          <div class="mb-4">
+            <%= f.label :content, "内容", class: "form-label fw-semibold" %>
+            <%= f.text_area :content, class: "form-control", rows: 6,
+                placeholder: "ご意見・ご要望をご記入ください..." %>
+          </div>
+          <div class="d-flex gap-2">
+            <%= f.submit "送信する", class: "btn btn-primary" %>
+            <%= link_to "キャンセル", mypage_path, class: "btn btn-outline-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

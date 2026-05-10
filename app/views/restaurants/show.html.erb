@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-lg-8">
+    <!-- レストラン情報 -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <h3 class="fw-bold mb-1"><%= @restaurant.name %></h3>
+            <span class="badge bg-info text-dark"><%= @restaurant.genre_name %></span>
+          </div>
+          <% if current_user %>
+            <%= form_tag restaurant_visit_histories_path(@restaurant), method: :post do %>
+              <%= submit_tag "訪問記録", class: "btn btn-outline-secondary btn-sm" %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><i class="bi bi-geo-alt-fill me-2 text-danger"></i><%= @restaurant.address %></li>
+          <% if @restaurant.phone.present? %>
+            <li class="mb-2"><i class="bi bi-telephone-fill me-2 text-success"></i><%= @restaurant.phone %></li>
+          <% end %>
+          <% if @restaurant.description.present? %>
+            <li class="mt-3 text-muted"><%= @restaurant.description %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- レビュー一覧 -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-star-fill me-2 text-warning"></i>レビュー (<%= @reviews.count %>件)</span>
+        <% if current_user && @user_review.nil? %>
+          <%= link_to new_restaurant_review_path(@restaurant), class: "btn btn-primary btn-sm" do %>
+            <i class="bi bi-pencil-square me-1"></i>レビューを投稿
+          <% end %>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <% if @reviews.empty? %>
+          <div class="text-center py-4 text-muted">
+            <i class="bi bi-chat-square-text display-4"></i>
+            <p class="mt-2">まだレビューがありません。最初のレビューを投稿しましょう。</p>
+          </div>
+        <% else %>
+          <% @reviews.each do |review| %>
+            <div class="border-bottom pb-3 mb-3">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <strong><%= review.user.name %></strong>
+                  <div class="star-rating my-1">
+                    <% review.rating.times do %><i class="bi bi-star-fill"></i><% end %>
+                    <% (5 - review.rating).times do %><i class="bi bi-star text-muted"></i><% end %>
+                  </div>
+                </div>
+                <small class="text-muted"><%= review.created_at.strftime("%Y/%m/%d") %></small>
+              </div>
+              <% if review.comment.present? %>
+                <p class="mb-0 mt-2"><%= review.comment %></p>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <!-- 平均評価 -->
+    <% if @reviews.any? %>
+      <div class="card mb-4 text-center">
+        <div class="card-body">
+          <h6 class="text-muted">平均評価</h6>
+          <div class="display-4 fw-bold text-warning">
+            <%= format("%.1f", @reviews.average(:rating)) %>
+          </div>
+          <div class="star-rating">
+            <% avg = @reviews.average(:rating).round %>
+            <% avg.times do %><i class="bi bi-star-fill"></i><% end %>
+            <% (5 - avg).times do %><i class="bi bi-star text-muted"></i><% end %>
+          </div>
+          <p class="text-muted mt-1 mb-0"><%= @reviews.count %>件のレビュー</p>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- アクション -->
+    <div class="card">
+      <div class="card-body">
+        <%= link_to search_path, class: "btn btn-outline-secondary w-100" do %>
+          <i class="bi bi-arrow-left me-1"></i>検索に戻る
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

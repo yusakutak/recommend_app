@@ -1,9 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <%= render "layouts/head" %>
   <body>
-   <%= render "layouts/header" %>
-    <div class="container">
+    <%= render "layouts/header" %>
+    <div class="container py-3">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="bi bi-check-circle-fill me-2"></i><%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i><%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
   </body>

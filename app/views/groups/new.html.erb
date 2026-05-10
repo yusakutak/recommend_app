@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>グループ作成</h5>
+      </div>
+      <div class="card-body">
+        <%= form_with model: @group do |f| %>
+          <div class="mb-4">
+            <%= f.label :name, "グループ名", class: "form-label fw-semibold" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "グループ名を入力" %>
+          </div>
+
+          <% if @friends.any? %>
+            <div class="mb-4">
+              <label class="form-label fw-semibold">フレンドをグループに追加</label>
+              <div class="border rounded p-3">
+                <% @friends.each do |friend| %>
+                  <div class="form-check mb-2">
+                    <%= check_box_tag "friend_ids[]", friend.id, false, class: "form-check-input", id: "friend_#{friend.id}" %>
+                    <label class="form-check-label" for="friend_<%= friend.id %>">
+                      <i class="bi bi-person me-1"></i><%= friend.name %>
+                    </label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% else %>
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>フレンドを追加してからグループに招待できます。
+            </div>
+          <% end %>
+
+          <div class="d-flex gap-2">
+            <%= f.submit "グループを作成", class: "btn btn-primary" %>
+            <%= link_to "キャンセル", groups_path, class: "btn btn-outline-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

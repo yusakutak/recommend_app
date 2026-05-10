@@ -1,2 +1,82 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <!-- プロフィールヘッダー -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+                 style="width:60px;height:60px;font-size:1.5rem;">
+              <%= @user.name[0].upcase %>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0"><%= @user.name %></h4>
+              <p class="text-muted mb-0 small"><%= @user.email %></p>
+            </div>
+          </div>
+
+          <!-- フレンド操作 -->
+          <% if current_user && current_user != @user %>
+            <% friendship = current_user.friendship_with(@user) %>
+            <% if friendship.nil? %>
+              <%= form_tag friendships_path do %>
+                <%= hidden_field_tag :receiver_id, @user.id %>
+                <%= submit_tag "フレンド申請", class: "btn btn-primary" %>
+              <% end %>
+            <% elsif friendship.status == "pending" %>
+              <div class="d-flex gap-2 align-items-center">
+                <% if friendship.receiver == current_user %>
+                  <%= form_tag accept_friendship_path(friendship), method: :patch do %>
+                    <%= submit_tag "申請を承認", class: "btn btn-success btn-sm" %>
+                  <% end %>
+                <% else %>
+                  <span class="badge bg-secondary">申請中</span>
+                <% end %>
+                <%= form_tag friendship_path(friendship), method: :delete do %>
+                  <%= submit_tag "キャンセル", class: "btn btn-outline-danger btn-sm" %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="d-flex gap-2 align-items-center">
+                <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>フレンド</span>
+                <%= form_tag friendship_path(friendship), method: :delete do %>
+                  <%= submit_tag "解除", class: "btn btn-outline-danger btn-sm" %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 嗜好パラメータ -->
+    <div class="card">
+      <div class="card-header">
+        <i class="bi bi-bar-chart-fill me-2"></i>嗜好パラメータ
+      </div>
+      <div class="card-body">
+        <% user_prefs = @user.user_preferences.includes(:genre) %>
+        <% if user_prefs.any? %>
+          <% user_prefs.order(score: :desc).each do |pref| %>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="fw-semibold"><%= pref.genre.name %></span>
+                <span class="text-muted"><%= pref.score %>/10</span>
+              </div>
+              <div class="progress" style="height:12px;">
+                <div class="progress-bar" role="progressbar"
+                     style="width: <%= pref.score * 10 %>%; background-color: <%= pref.score >= 7 ? '#e74c3c' : pref.score >= 4 ? '#f39c12' : '#95a5a6' %>;">
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-4 text-muted">
+            <i class="bi bi-clipboard display-4"></i>
+            <p class="mt-2">まだ嗜好情報が登録されていません。</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-lg-8">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0"><i class="bi bi-people-fill me-2"></i><%= @group.name %></h3>
+      <% if @group.creator == current_user %>
+        <%= link_to group_path(@group), data: { turbo_method: :delete, turbo_confirm: "グループを削除しますか？" },
+            class: "btn btn-outline-danger btn-sm" do %>
+          <i class="bi bi-trash me-1"></i>削除
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- チャット -->
+    <div class="card">
+      <div class="card-header">
+        <i class="bi bi-chat-dots me-2"></i>チャット
+      </div>
+      <div class="card-body p-0">
+        <div class="chat-box" id="chat-messages">
+          <% if @messages.empty? %>
+            <p class="text-muted text-center py-3">まだメッセージがありません。最初のメッセージを送りましょう！</p>
+          <% else %>
+            <% @messages.each do |msg| %>
+              <div class="chat-message <%= 'own' if msg.user == current_user %>">
+                <div class="d-flex justify-content-between align-items-start">
+                  <strong class="<%= 'text-primary' if msg.user == current_user %>">
+                    <%= msg.user.name %>
+                    <% if msg.user == current_user %><small class="text-muted fw-normal">(あなた)</small><% end %>
+                  </strong>
+                  <small class="text-muted"><%= msg.created_at.strftime("%m/%d %H:%M") %></small>
+                </div>
+                <p class="mb-0 mt-1"><%= msg.content %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%= form_with url: group_messages_path(@group), model: @message do |f| %>
+          <div class="input-group">
+            <%= f.text_area :content, class: "form-control", placeholder: "メッセージを入力...", rows: 2,
+                id: "message-input" %>
+            <div class="d-flex flex-column">
+              <%= f.submit "送信", class: "btn btn-primary h-100" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- メンバー一覧 -->
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-people me-2"></i>メンバー</span>
+        <span class="badge bg-secondary"><%= @members.count %></span>
+      </div>
+      <ul class="list-group list-group-flush">
+        <% @members.each do |member| %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <i class="bi bi-person-circle me-2 text-muted"></i>
+              <%= link_to member.name, user_path(member) %>
+              <% if member == @group.creator %>
+                <span class="badge bg-warning text-dark ms-1">オーナー</span>
+              <% end %>
+            </span>
+            <% if @group.creator == current_user && member != current_user %>
+              <% gm = GroupMember.find_by(group: @group, user: member) %>
+              <% if gm %>
+                <%= link_to group_group_member_path(@group, gm), data: { turbo_method: :delete, turbo_confirm: "#{member.name}さんを削除しますか？" },
+                    class: "btn btn-outline-danger btn-sm py-0" do %>
+                  <i class="bi bi-x"></i>
+                <% end %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <!-- フレンドを追加 -->
+    <% available_friends = current_user.friends - @members %>
+    <% if available_friends.any? %>
+      <div class="card mt-3">
+        <div class="card-header"><i class="bi bi-person-plus me-2"></i>メンバーを追加</div>
+        <div class="card-body p-0">
+          <% available_friends.each do |friend| %>
+            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+              <span class="ps-2"><%= friend.name %></span>
+              <%= form_tag group_group_members_path(@group), method: :post do %>
+                <%= hidden_field_tag :user_id, friend.id %>
+                <%= submit_tag "追加", class: "btn btn-sm btn-outline-primary" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  // チャット最下部にスクロール
+  var chatBox = document.getElementById('chat-messages');
+  if (chatBox) { chatBox.scrollTop = chatBox.scrollHeight; }
+</script>

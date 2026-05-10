@@ -1,18 +1,130 @@
-<div class="center jumbotron">
-  <h1>今日のご飯決めたろう</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold mb-0"><i class="bi bi-person-circle me-2"></i>マイページ</h2>
+</div>
 
-<div class="square-container">
-    <div class="row">
-      <% 6.times do |i| %>
-        <div class="col-6 col-md-4 col-lg-2">
-          <div class="square-box d-flex align-items-center justify-content-center">
-            
-            <span><%= "#" %></span>
+<!-- フレンド申請通知 -->
+<% pending_requests = current_user.received_friendships.where(status: "pending") %>
+<% if pending_requests.any? %>
+  <div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+    <i class="bi bi-person-plus-fill me-2 fs-5"></i>
+    <div>
+      <strong><%= pending_requests.count %>件</strong>のフレンド申請が届いています
+      <a href="#friend-requests" class="ms-2 btn btn-sm btn-warning">確認する</a>
+    </div>
+  </div>
+<% end %>
+
+<div class="row g-4">
+  <!-- プロフィール -->
+  <div class="col-lg-4">
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="bi bi-person-fill me-2"></i>プロフィール
+      </div>
+      <div class="card-body">
+        <p class="mb-2"><strong>名前:</strong> <%= current_user.name %></p>
+        <p class="mb-3"><strong>メール:</strong> <span class="text-muted"><%= current_user.email %></span></p>
+        <div class="d-flex gap-2">
+          <%= link_to edit_user_registration_path, class: "btn btn-outline-secondary btn-sm" do %>
+            <i class="bi bi-pencil me-1"></i>編集
+          <% end %>
+          <%= link_to form_path, class: "btn btn-outline-primary btn-sm" do %>
+            <i class="bi bi-clipboard me-1"></i>嗜好更新
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- フレンド一覧 -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-people me-2"></i>フレンド一覧</span>
+        <span class="badge bg-secondary"><%= @friends.count %></span>
+      </div>
+      <div class="card-body p-0">
+        <% if @friends.empty? %>
+          <p class="text-muted p-3 mb-0">まだフレンドがいません。<br>ユーザー検索からフレンド申請を送りましょう。</p>
+        <% else %>
+          <ul class="list-group list-group-flush">
+            <% @friends.each do |friend| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-person me-2 text-muted"></i><%= link_to friend.name, user_path(friend) %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右カラム -->
+  <div class="col-lg-8">
+    <!-- 最近の訪問履歴 -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="bi bi-clock-history me-2"></i>最近の訪問履歴
+      </div>
+      <div class="card-body p-0">
+        <% if @recent_visits.empty? %>
+          <p class="text-muted p-3 mb-0">まだ訪問履歴がありません。</p>
+        <% else %>
+          <ul class="list-group list-group-flush">
+            <% @recent_visits.each do |vh| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                  <i class="bi bi-shop me-2 text-muted"></i>
+                  <%= link_to vh.restaurant.name, restaurant_path(vh.restaurant) %>
+                </span>
+                <small class="text-muted"><%= vh.visited_at&.strftime("%Y/%m/%d") || vh.created_at.strftime("%Y/%m/%d") %></small>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- グループ -->
+    <div class="card">
+      <div class="card-header">
+        <i class="bi bi-people-fill me-2"></i>グループ
+      </div>
+      <div class="card-body">
+        <div class="d-flex gap-2">
+          <%= link_to groups_path, class: "btn btn-outline-secondary" do %>
+            <i class="bi bi-list me-1"></i>グループ一覧
+          <% end %>
+          <%= link_to new_group_path, class: "btn btn-primary" do %>
+            <i class="bi bi-plus-circle me-1"></i>新しいグループ
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- フレンド申請セクション -->
+<% if pending_requests.any? %>
+  <div class="card mt-4 border-warning" id="friend-requests">
+    <div class="card-header bg-warning bg-opacity-10">
+      <i class="bi bi-bell-fill me-2 text-warning"></i>
+      フレンド申請 (<%= pending_requests.count %>件)
+    </div>
+    <div class="card-body">
+      <% pending_requests.each do |fr| %>
+        <div class="d-flex align-items-center justify-content-between mb-3 p-3 bg-light rounded">
+          <span>
+            <strong><%= fr.requester.name %></strong> さんからフレンド申請が届いています
+          </span>
+          <div class="d-flex gap-2">
+            <%= form_tag accept_friendship_path(fr), method: :patch do %>
+              <%= submit_tag "承認", class: "btn btn-success btn-sm" %>
+            <% end %>
+            <%= form_tag friendship_path(fr), method: :delete do %>
+              <%= submit_tag "拒否", class: "btn btn-outline-danger btn-sm" %>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
   </div>
-
-</div>
-
+<% end %>

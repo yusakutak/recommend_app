@@ -1,13 +1,59 @@
-<div class="center jumbotron">
-  <h1>今日のご飯決めたろう</h1>
-
-  <h2>
-    This is the home page for the
-    <%# ここにログイン画面貼り付ける %>
-    <a href= new_user_session_path></a>
-    recommend application.
-  </h2>
-
-  <%= link_to "Sign up now!",  new_user_registration_path, class: "btn btn-lg btn-primary" %>
+<!-- ヒーローセクション -->
+<div class="hero-section text-center mb-5">
+  <div class="container">
+    <h1><i class="bi bi-geo-alt-fill me-2"></i>今日の食事決め太郎</h1>
+    <p class="lead mb-4">あなたの好みに合わせた飲食店をレコメンドするアプリです</p>
+    <% if user_signed_in? %>
+      <%= link_to mypage_path, class: "btn btn-light btn-lg me-3" do %>
+        <i class="bi bi-person-circle me-1"></i>マイページ
+      <% end %>
+      <%= link_to search_path, class: "btn btn-outline-light btn-lg" do %>
+        <i class="bi bi-search me-1"></i>飲食店を探す
+      <% end %>
+    <% else %>
+      <%= link_to new_user_registration_path, class: "btn btn-light btn-lg me-3" do %>
+        <i class="bi bi-person-plus me-1"></i>新規登録
+      <% end %>
+      <%= link_to new_user_session_path, class: "btn btn-outline-light btn-lg" do %>
+        <i class="bi bi-box-arrow-in-right me-1"></i>ログイン
+      <% end %>
+    <% end %>
+  </div>
 </div>
 
+<!-- 機能紹介 -->
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-3">
+      <div class="card-body">
+        <div class="mb-3" style="font-size:3rem; color:#e74c3c;">
+          <i class="bi bi-clipboard-check"></i>
+        </div>
+        <h5 class="card-title fw-bold">嗜好アンケート</h5>
+        <p class="card-text text-muted">料理ジャンルの好みを登録して、あなたに合った飲食店を見つけましょう。</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-3">
+      <div class="card-body">
+        <div class="mb-3" style="font-size:3rem; color:#3498db;">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h5 class="card-title fw-bold">フレンド機能</h5>
+        <p class="card-text text-muted">友達の嗜好を確認し、一緒に行けるお店を探しましょう。</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 text-center p-3">
+      <div class="card-body">
+        <div class="mb-3" style="font-size:3rem; color:#2ecc71;">
+          <i class="bi bi-chat-dots-fill"></i>
+        </div>
+        <h5 class="card-title fw-bold">グループチャット</h5>
+        <p class="card-text text-muted">グループを作成して、行くお店を一緒に決めましょう。</p>
+      </div>
+    </div>
+  </div>
+</div>

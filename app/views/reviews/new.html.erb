@@ -1,0 +1,36 @@
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i><%= @restaurant.name %> のレビューを投稿</h5>
+      </div>
+      <div class="card-body">
+        <%= form_with model: [@restaurant, @review] do |f| %>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">評価</label>
+            <div class="d-flex gap-3 align-items-center flex-wrap">
+              <% (1..5).each do |i| %>
+                <div class="form-check form-check-inline">
+                  <%= f.radio_button :rating, i, class: "form-check-input", id: "rating_#{i}" %>
+                  <label class="form-check-label star-rating" for="rating_<%= i %>">
+                    <%= "★" * i %><%= "☆" * (5 - i) %>
+                  </label>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">コメント <small class="text-muted fw-normal">(任意)</small></label>
+            <%= f.text_area :comment, class: "form-control", rows: 4, placeholder: "お店の感想を書いてください..." %>
+          </div>
+
+          <div class="d-flex gap-2">
+            <%= f.submit "投稿する", class: "btn btn-primary" %>
+            <%= link_to "キャンセル", restaurant_path(@restaurant), class: "btn btn-outline-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

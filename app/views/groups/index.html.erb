@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold mb-0"><i class="bi bi-people-fill me-2"></i>グループ一覧</h2>
+  <%= link_to new_group_path, class: "btn btn-primary" do %>
+    <i class="bi bi-plus-circle me-1"></i>新しいグループ
+  <% end %>
+</div>
+
+<% if @groups.empty? %>
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-people display-1"></i>
+    <p class="mt-3">参加しているグループがありません。</p>
+    <%= link_to new_group_path, class: "btn btn-primary mt-2" do %>
+      <i class="bi bi-plus-circle me-1"></i>グループを作成する
+    <% end %>
+  </div>
+<% else %>
+  <div class="row g-3">
+    <% @groups.each do |group| %>
+      <div class="col-md-4">
+        <div class="card restaurant-card h-100">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              <%= link_to group.name, group_path(group), class: "text-decoration-none text-dark" %>
+            </h5>
+            <p class="text-muted mb-2">
+              <i class="bi bi-people me-1"></i><%= group.users.count %>人のメンバー
+            </p>
+            <% last_msg = group.messages.order(created_at: :desc).first %>
+            <% if last_msg %>
+              <p class="text-muted small mb-0">
+                <i class="bi bi-chat me-1"></i>
+                <%= truncate(last_msg.content, length: 30) %>
+              </p>
+            <% end %>
+          </div>
+          <div class="card-footer bg-transparent">
+            <%= link_to "チャットを開く", group_path(group), class: "btn btn-sm btn-outline-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,22 +1,59 @@
-<h1>今日のご飯決めたろう</h1>
-<%= form_with url: search_path, method: :get, local: true do |f| %>
-  <div class="field">
-    <%= f.label :keyword, "検索" %>
-    <%= f.text_field :keyword, placeholder: "キーワードを入力", class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= f.submit "検索", class: "btn btn-primary" %>
-  </div>
-<% end %>
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>嗜好アンケート</h4>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-4">各料理ジャンルへの好み度を 0〜10 で設定してください。</p>
 
-<%= form_with url: form_path, local: true do |f| %>
-  
-  <div class="actions">
-    <%= link_to "フレンドリスト", friends_path, class: "btn btn-primary" %>
-  </div>
-    <div class="actions">
-        <%= link_to "グループ", groups_path, class: "btn btn-primary" %>
+        <%= form_tag update_preferences_path, method: :post do %>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ジャンル</th>
+                  <th>好み度 <small class="text-muted fw-normal">(0=苦手 / 10=大好き)</small></th>
+                  <th class="text-center">選択値</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @genres.each do |genre| %>
+                  <tr>
+                    <td><strong><%= genre.name %></strong></td>
+                    <td style="min-width: 200px;">
+                      <input type="range" class="form-range genre-range"
+                             name="preferences[<%= genre.id %>]"
+                             id="range_<%= genre.id %>"
+                             min="0" max="10" step="1"
+                             value="<%= @user_preferences[genre.id] || 5 %>"
+                             data-output="output_<%= genre.id %>">
+                    </td>
+                    <td class="text-center">
+                      <span class="badge bg-primary fs-6" id="output_<%= genre.id %>">
+                        <%= @user_preferences[genre.id] || 5 %>
+                      </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-end mt-3">
+            <%= submit_tag "保存する", class: "btn btn-primary btn-lg" %>
+          </div>
+        <% end %>
+      </div>
     </div>
-    <div class="actions">
-        <%= link_to "食事アンケート", user_path(current_user), class: "btn btn-primary" %>
-<% end %>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.genre-range').forEach(function(range) {
+    var outputId = range.dataset.output;
+    var output = document.getElementById(outputId);
+    range.addEventListener('input', function() {
+      output.textContent = this.value;
+    });
+  });
+</script>

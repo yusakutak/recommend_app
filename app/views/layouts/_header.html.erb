@@ -1,22 +1,38 @@
-<%# これはパーシャル機能を使ってレストフルな環境を作るために作ったファイル 
- * このファイルはapplication.html.erbのrenderERBメソッドで読み込まれる%>
-<header class="navbar navbar-fixed-top navbar-inverse">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
   <div class="container">
-    <%= link_to "recommend app", root_path, id: "logo" %>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Form", form_path %></li>
+    <a class="navbar-brand" href="<%= root_path %>">
+      <i class="bi bi-fork-knife"></i> 食事決め太郎
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
-          <li>
-            <%= form_with url: destroy_user_session_path, method: :delete, local: true do %>
-              <button type="submit" class="btn btn-link" style="padding:0;">Log out</button>
+          <li class="nav-item"><%= link_to "マイページ", mypage_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "アンケート", form_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "飲食店検索", search_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "グループ", groups_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "フィードバック", new_feedback_path, class: "nav-link" %></li>
+          <% pending_count = current_user.received_friendships.where(status: "pending").count %>
+          <li class="nav-item">
+            <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link" do %>
+              <i class="bi bi-box-arrow-right"></i> ログアウト
             <% end %>
           </li>
+          <% if pending_count > 0 %>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= mypage_path %>">
+                <span class="badge bg-danger pending-badge"><%= pending_count %></span>
+              </a>
+            </li>
+          <% end %>
         <% else %>
-          <li><%= link_to "Log in", new_user_session_path %></li>
+          <li class="nav-item"><%= link_to "ログイン", new_user_session_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-light ms-2" %></li>
         <% end %>
       </ul>
-    </nav>
+    </div>
   </div>
-</header>
+</nav>
+<div style="margin-top: 70px;"></div>

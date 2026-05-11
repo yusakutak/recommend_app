@@ -2,20 +2,29 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :user_preferences, dependent: :destroy
-  has_many :genres, through: :user_preferences
+  # レコメンド関連
+  has_many :user_cuisine_preferences, dependent: :destroy
+  has_many :cuisine_types, through: :user_cuisine_preferences
   has_many :reviews, dependent: :destroy
   has_many :visit_histories, dependent: :destroy
   has_many :visited_restaurants, through: :visit_histories, source: :restaurant
-  has_many :messages, dependent: :destroy
+
+  # グループ、メッセージ
   has_many :group_members, dependent: :destroy
   has_many :groups, through: :group_members
-  has_many :feedbacks, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
-  # Friendships as requester
-  has_many :sent_friendships, class_name: "Friendship", foreign_key: :requester_id, dependent: :destroy
-  has_many :received_friendships, class_name: "Friendship", foreign_key: :receiver_id, dependent: :destroy
+  # フレンド
+  has_many :sent_friendships,
+           class_name: "Friendship",
+           foreign_key: :user_id,
+           dependent: :destroy
+  has_many :received_friendships,
+           class_name: "Friendship",
+           foreign_key: :friend_id,
+           dependent: :destroy
 
+  # フレンド関連メソッド
   def friends
     accepted_sent = Friendship.where(requester_id: id, status: "accepted").pluck(:receiver_id)
     accepted_received = Friendship.where(receiver_id: id, status: "accepted").pluck(:requester_id)

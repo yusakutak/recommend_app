@@ -173,3 +173,7 @@ Depending on your application's configuration some manual setup may be required:
 ・フィードバック機能(ユーザが本アプリを利用した際の意見を入力する機能)
 ・各ユーザの嗜好パラメータ確認機能(アンケート機能の嗜好情報がベース)
 ・レビュー後のユーザ嗜好情報の自動調整
+
+・お店の詳細ボタンを押したらHotpepperグルメのページに飛ぶ
+→予約完了まで持っていける
+

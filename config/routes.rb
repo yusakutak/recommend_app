@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "user_cuisine_preferences/edit"
+  get "user_cuisine_preferences/update"
+  get "pages/mypage"
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations",

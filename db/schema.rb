@@ -25,9 +25,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_12_070519) do
   end
 
   create_table "friendships", force: :cascade do |t|
-    t.integer "requester_id"
-    t.integer "receiver_id"
-    t.string "status"
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "accepted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -39,24 +40,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_12_070519) do
   end
 
   create_table "group_members", force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "user_id"
-    t.string "role"
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "joined_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string "name"
-    t.integer "creator_id"
+    t.string "name", null: false
+    t.integer "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "user_id"
-    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -79,23 +80,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_12_070519) do
   end
 
   create_table "restaurants", force: :cascade do |t|
-    t.string "hotpepper_id"
-    t.string "name"
-    t.string "genre_name"
+    t.string "name", null: false
+    t.integer "cuisine_type_id", null: false
+    t.string "hotpepper_id", null: false
     t.string "address"
     t.float "latitude"
     t.float "longitude"
     t.string "phone"
     t.text "description"
-    t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "restaurant_id"
-    t.integer "rating"
+    t.integer "user_id", null: false
+    t.integer "restaurant_id", null: false
+    t.integer "visit_history_id", null: false
+    t.integer "rating", null: false
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -123,9 +124,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_12_070519) do
   end
 
   create_table "visit_histories", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "restaurant_id"
-    t.datetime "visited_at"
+    t.integer "user_id", null: false
+    t.integer "restaurant_id", null: false
+    t.datetime "visited_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

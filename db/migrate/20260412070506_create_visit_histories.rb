@@ -5,8 +5,6 @@ class CreateVisitHistories < ActiveRecord::Migration[8.0]
       t.integer  :restaurant_id, null: false
       t.datetime :visited_at,    null: false
       t.timestamps
-
-      t.timestamps
     end
   end
 end

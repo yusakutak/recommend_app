@@ -1,0 +1,55 @@
+<div class="center">
+  <h1>フレンド</h1>
+  <h2><%= @friends.size %>人のフレンド</h2>
+</div>
+
+<div class="app-card">
+  <strong>フレンドを追加</strong>
+  <%= form_with url: relationships_path, method: :post, local: true, style: "margin-top:10px;" do |f| %>
+    <div class="input-group">
+      <%= f.text_field :email, placeholder: "相手のメールアドレス", class: "form-control" %>
+      <span class="input-group-btn">
+        <%= f.submit "申請を送る", class: "btn btn-primary" %>
+      </span>
+    </div>
+  <% end %>
+</div>
+
+<div class="app-card">
+  <% if @friends.empty? %>
+    <p class="text-muted">まだフレンドがいません。お互いにフォローすると、フレンドとして表示されます。</p>
+  <% else %>
+    <% @friends.each do |friend| %>
+      <div class="row" style="margin-bottom:10px; align-items:center;">
+        <div class="col-xs-8">
+          <strong><%= friend.name %></strong><br>
+          <small class="text-muted"><%= friend.preferences.count %>ジャンルの好みを回答済み</small>
+        </div>
+        <div class="col-xs-4 text-right">
+          <%= link_to "嗜好を見る", user_path(friend), class: "btn btn-sm btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<h3>フレンド申請</h3>
+<div class="app-card">
+  <% if @incoming_requests.empty? %>
+    <p class="text-muted">新しいフレンド申請はありません。</p>
+  <% else %>
+    <% @incoming_requests.each do |request| %>
+      <div class="row" style="margin-bottom:10px; align-items:center;">
+        <div class="col-xs-8">
+          <strong><%= request.follower.name %></strong>
+        </div>
+        <div class="col-xs-4 text-right">
+          <%= button_to "承認", accept_relationship_path(request), method: :patch, class: "btn btn-sm btn-success" %>
+          <%= button_to "拒否", relationship_path(request), method: :delete, class: "btn btn-sm btn-default" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "マイページへ戻る", mypage_path, class: "btn btn-default" %>

@@ -1,0 +1,67 @@
+<%= link_to "&#8592; マイページ".html_safe, mypage_path %>
+
+<h1>飲食店を検索</h1>
+
+<%= form_with url: search_path, method: :get, local: true do |f| %>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="app-card">
+        <strong>絞り込み</strong>
+        <hr>
+        <strong>ジャンル</strong>
+        <div class="genre-checkbox-grid">
+          <% @categories.each do |category| %>
+            <label class="genre-checkbox-item">
+              <%= check_box_tag "genre_codes[]", category.code, @selected_genre_codes.include?(category.code), id: "genre_code_#{category.id}" %>
+              <%= category.category %>
+            </label>
+          <% end %>
+        </div>
+        <hr>
+        <strong>予算</strong>
+        <div class="radio"><label><input type="radio" name="budget" disabled> 1000-1999</label></div>
+        <div class="radio"><label><input type="radio" name="budget" disabled> 2000-2999</label></div>
+        <div class="radio"><label><input type="radio" name="budget" disabled> 3000-4000</label></div>
+      </div>
+    </div>
+
+    <div class="col-sm-9">
+      <div class="input-group" style="margin-bottom:20px;">
+        <%= f.text_field :keyword, value: @keyword, placeholder: "お店の名前、エリア、ジャンルなど", class: "form-control" %>
+        <span class="input-group-btn">
+          <%= f.submit "検索", class: "btn btn-primary" %>
+        </span>
+      </div>
+
+      <% if !@searched %>
+        <p class="text-muted">キーワードまたはジャンルを選んで検索してください。</p>
+      <% elsif @restaurants.empty? %>
+        <p class="text-muted">一致する飲食店が見つかりませんでした。</p>
+      <% else %>
+        <% if @no_exact_match %>
+          <p class="text-muted">「<%= @keyword %>」に完全に一致する飲食店は見つかりませんでした。関連する可能性のある飲食店を表示しています。</p>
+        <% end %>
+        <div class="restaurant-grid">
+          <% @restaurants.each do |restaurant| %>
+            <div class="restaurant-grid-item">
+              <%= link_to restaurant_path(restaurant), style: "display:block;" do %>
+                <div class="app-card">
+                  <div class="app-card-thumb">
+                    <% if restaurant.image_url.present? %>
+                      <%= image_tag restaurant.image_url, alt: restaurant.name %>
+                    <% else %>
+                      &#127860;
+                    <% end %>
+                  </div>
+                  <strong><%= restaurant.name %></strong><br>
+                  <%= restaurant.category.category %><br>
+                  <small class="text-muted"><%= restaurant.address %></small>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,2 +1,29 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="app-card" style="background-color:#000; color:white;">
+  <strong><%= @user.name %>さんの嗜好プロファイル</strong><br>
+  <small><%= @preferences.size %>ジャンルの回答から分析</small>
+</div>
+
+<h3>&#127860; 料理ジャンル別の好み</h3>
+
+<% if @preferences.empty? %>
+  <p class="text-muted">まだアンケートの回答がありません。</p>
+<% else %>
+  <% @preferences.each do |preference| %>
+    <div class="preference-bar-row">
+      <div class="preference-bar-label">
+        <span><%= preference.category.category %></span>
+        <span><%= preference.preference * 20 %>%</span>
+      </div>
+      <div class="preference-bar-track">
+        <div class="preference-bar-fill" style="width: <%= preference.preference * 20 %>%;"></div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @user == current_user %>
+  <%= link_to "アンケートを編集する", form_path, class: "btn btn-primary" %>
+  <%= link_to "マイページへ戻る", mypage_path, class: "btn btn-default" %>
+<% else %>
+  <%= link_to "フレンドリストへ戻る", friends_path, class: "btn btn-default" %>
+<% end %>

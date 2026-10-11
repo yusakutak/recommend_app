@@ -16,3 +16,8 @@ class ActiveSupport::TestCase
 
   # （すべてのテストで使うその他のヘルパーメソッドは省略）
 end
+
+class ActionDispatch::IntegrationTest
+  # sign_in / sign_out をテスト内で使えるようにする
+  include Devise::Test::IntegrationHelpers
+end

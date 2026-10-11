@@ -1,0 +1,19 @@
+<%= link_to "&#8592; マイページ".html_safe, mypage_path %>
+
+<div class="center">
+  <h1>訪問履歴</h1>
+  <h2>過去に訪れたお店</h2>
+</div>
+
+<% if @visit_histories.empty? %>
+  <p class="text-muted">まだ訪問履歴がありません。</p>
+<% else %>
+  <% @visit_histories.each do |visit| %>
+    <%= link_to visit_history_path(visit), style: "display:block;" do %>
+      <div class="app-card">
+        <strong><%= visit.restaurant.name %></strong><br>
+        <small class="text-muted"><%= visit.visited_on %></small>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,28 @@
+<%= link_to "&#8592; 訪問履歴一覧".html_safe, visit_histories_path %>
+
+<div class="app-card">
+  <h1 style="text-align:left;"><%= @visit_history.restaurant.name %></h1>
+  <p class="text-muted">訪問日: <%= @visit_history.visited_on %></p>
+  <% if @review %>
+    <p><%= "★" * @review.rating %><span style="color:#ccc;"><%= "★" * (5 - @review.rating) %></span></p>
+    <p><%= @review.comment %></p>
+  <% else %>
+    <p class="text-muted">まだレビューが投稿されていません。</p>
+  <% end %>
+</div>
+
+<div class="app-card">
+  <strong>レビューを編集する</strong>
+  <div class="field" style="margin-top:10px;">
+    <label>評価</label><br>
+    <% 5.downto(1) do |star| %>
+      <label style="margin-right:10px;"><input type="radio" name="rating" disabled <%= "checked" if @review && star == @review.rating %>> <%= "★" * star %></label>
+    <% end %>
+  </div>
+  <div class="field">
+    <label>コメント</label>
+    <textarea class="form-control" rows="3" disabled><%= @review&.comment %></textarea>
+  </div>
+  <button class="btn btn-primary" disabled>レビューを更新</button>
+  <p class="text-muted" style="margin-top:5px;"><small>※ レビュー投稿・編集機能は今後実装予定です。</small></p>
+</div>

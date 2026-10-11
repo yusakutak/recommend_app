@@ -1,0 +1,701 @@
+<title>中間発表 - グループベースの飲食店推薦システム</title>
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --text: #201d1a;
+    --muted: #6b6357;
+    --border: #e4ddd0;
+    --accent: #1f3a5f;
+    --accent-2: #c2841f;
+    --mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+    --sans: "Yu Gothic", "Hiragino Kaku Gothic ProN", -apple-system, "Segoe UI", sans-serif;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #16191d;
+    --surface: #1e2226;
+    --text: #ecebe8;
+    --muted: #a3a099;
+    --border: #333831;
+    --accent: #7fa8d9;
+    --accent-2: #e0a94a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16191d;
+      --surface: #1e2226;
+      --text: #ecebe8;
+      --muted: #a3a099;
+      --border: #333831;
+      --accent: #7fa8d9;
+      --accent-2: #e0a94a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    scroll-behavior: smooth;
+  }
+
+  .deck {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+  }
+
+  section.slide {
+    height: 100vh;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    padding: 56px 72px;
+    position: relative;
+  }
+
+  section.slide .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  section.slide h1 {
+    font-size: 34px;
+    margin: 0 0 28px;
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--accent);
+    border-bottom: 3px solid var(--accent-2);
+    padding-bottom: 14px;
+    display: inline-block;
+  }
+
+  section.slide .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    min-height: 0;
+  }
+
+  .pagenum {
+    position: absolute;
+    bottom: 24px;
+    right: 32px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ---- title slide ---- */
+  .title-slide {
+    justify-content: center;
+    align-items: flex-start;
+    background: linear-gradient(180deg, var(--surface), var(--bg));
+  }
+  .title-slide .eyebrow { font-size: 14px; }
+  .title-slide h1 {
+    font-size: 46px;
+    border: none;
+    padding: 0;
+    margin-bottom: 8px;
+  }
+  .title-slide .subtitle {
+    font-size: 20px;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+  .title-slide .meta {
+    font-size: 15px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .title-slide .meta b { color: var(--text); }
+
+  /* ---- generic lists ---- */
+  ul.points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  ul.points li {
+    font-size: 19px;
+    line-height: 1.6;
+    padding-left: 30px;
+    position: relative;
+  }
+  ul.points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-2);
+    border-radius: 2px;
+  }
+  ul.points li .sub {
+    display: block;
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: var(--accent);
+  }
+
+  /* references */
+  ol.refs {
+    margin: 0;
+    padding-left: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  ol.refs li { font-size: 17px; line-height: 1.6; }
+  ol.refs .cite-src { color: var(--muted); font-size: 14px; }
+
+  /* formula */
+  .formula-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+  .fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 26px;
+  }
+  .fraction .num, .fraction .den { padding: 2px 10px; }
+  .fraction .num { border-bottom: 2px solid var(--text); }
+  .formula-lhs { font-family: var(--mono); font-size: 26px; }
+  .formula-cond {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--muted);
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid var(--border);
+  }
+
+  .er-groups {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .er-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .er-group h4 {
+    margin: 0 0 12px;
+    font-size: 13.5px;
+    color: var(--accent);
+  }
+  .er-tables {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .er-tbl {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    text-align: center;
+  }
+
+  table.def {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+  }
+  table.def th, table.def td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+  table.def th {
+    background: var(--surface);
+    color: var(--accent);
+    font-weight: 700;
+    width: 90px;
+    font-family: var(--mono);
+  }
+
+  /* status checklist */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .status-col h3 {
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-col.done h3::before { content: "✓"; color: #3f8a52; font-weight: 700; }
+  .status-col.todo h3::before { content: "○"; color: var(--accent-2); font-weight: 700; }
+  ul.check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  ul.check li {
+    font-size: 15.5px;
+    line-height: 1.5;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .status-col.done ul.check li { border-left: 3px solid #3f8a52; }
+  .status-col.todo ul.check li { border-left: 3px solid var(--accent-2); }
+
+  /* schedule table */
+  table.sched {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+  table.sched th {
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+  }
+  table.sched td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.sched td:first-child {
+    font-family: var(--mono);
+    color: var(--accent-2);
+    font-weight: 700;
+    white-space: nowrap;
+    width: 160px;
+  }
+  table.sched tr:last-child td {
+    font-weight: 700;
+    background: color-mix(in srgb, var(--accent-2) 12%, transparent);
+  }
+
+  .exp-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .exp-step {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .exp-step .n {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    font-size: 14px;
+  }
+  .exp-step .t { font-size: 17px; line-height: 1.55; }
+  .exp-step .t .label { font-weight: 700; color: var(--accent); }
+
+  .method-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .method-card.selected { border-color: var(--accent-2); border-width: 2px; }
+  .method-card h4 { margin: 0 0 8px; font-size: 14.5px; color: var(--accent); }
+  .method-card p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .method-card .tag {
+    display: inline-block;
+    font-size: 10.5px;
+    background: var(--accent-2);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+
+  .summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .summary-list .row {
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+  }
+  .summary-list .row .idx {
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--accent-2);
+    font-weight: 700;
+    flex: none;
+  }
+  .summary-list .row .txt { font-size: 20px; line-height: 1.55; }
+
+  .nav-hint {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: 20px;
+    z-index: 10;
+  }
+
+  @media (max-width: 900px) {
+    section.slide { padding: 32px 24px; }
+    .two-col, .status-grid, .method-cards, .er-groups { grid-template-columns: 1fr; }
+    .method-card[style*="grid-column"] { grid-column: auto; }
+    section.slide h1 { font-size: 26px; }
+  }
+</style>
+
+<div class="deck" id="deck">
+
+  <section class="slide title-slide">
+    <span class="eyebrow">2025年度 卒業研究 中間発表</span>
+    <h1>グループベースの飲食店推薦システム<br>「今日の食事決めたろう」の提案</h1>
+    <p class="subtitle">個人の食事嗜好とグループの総意を両立するレコメンドシステムの設計・実装</p>
+    <div class="meta">
+      <span>中央大学 国際情報学部</span>
+      <span><b>23G1104003I 竹井佑朔</b></span>
+      <span>指導教員：飯尾淳</span>
+    </div>
+    <span class="pagenum">1 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Background</span>
+    <h1>研究背景</h1>
+    <div class="body">
+      <ul class="points">
+        <li>複数人での食事会において、参加者全員の好みを考慮した飲食店選びは<b>時間と労力を要する</b>意思決定である
+          <span class="sub">個人の嗜好を満たしつつ、グループ全体の満足度を最大化する店を見つけるのは容易ではない</span>
+        </li>
+        <li>既存の飲食店検索・推薦サービスは、個人の詳細な嗜好を<b>継続的に学習する機能</b>や、<b>グループ内の合意形成を支援する機能</b>が不十分
+          <span class="sub">レビュー履歴に基づく単純な推薦や、条件検索に留まるものが多い</span>
+        </li>
+        <li>グループメンバー間の嗜好の差異を調整し、最適な選択肢を提示する<b>動的なアプローチ</b>が限定的
+        </li>
+      </ul>
+    </div>
+    <span class="pagenum">2 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Purpose</span>
+    <h1>目的・ゴール</h1>
+    <div class="body">
+      <ul class="points">
+        <li>個人の食事嗜好と<b>グループの総意を両立</b>させる新しい飲食店推薦システムを設計・開発する
+          <span class="sub">ユーザーの意思決定スピード向上への貢献を目指す</span>
+        </li>
+        <li>アンケートとレビュー投稿から嗜好データを収集・学習し、<b>個々人に最適化された推薦</b>を提供する</li>
+        <li>グループ機能を通じてメンバー全員の嗜好パラメータを統合分析し、<b>グループ全体にとって満足度の高い店</b>を推薦することで、合意形成プロセスを支援する</li>
+      </ul>
+    </div>
+    <span class="pagenum">3 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Related Work</span>
+    <h1>参考文献</h1>
+    <div class="body">
+      <ol class="refs">
+        <li>奥薗基, 牟田将史, 平野廣美, 益子宗, 星野准一「複数人の嗜好分析による観光地推薦システムの提案」
+          <div class="cite-src">第22回インタラクティブシステムとソフトウェアに関するワークショップ (WISS2014), 2014</div>
+        </li>
+        <li>前田洋光, 吉岡千咲「Web上におけるくちコミの量と質が情報過負荷の発生と購買意思決定に及ぼす影響」
+          <div class="cite-src">京都橘大学研究紀要, vol.48, pp. 277-291, 2022年</div>
+        </li>
+        <li>瀬古俊一, 茂木学, 八木貴史, 武藤伸洋, 阿部匡伸「行動履歴を利用したグループレコメンデーションのためのコンテンツフィルタリング手法」
+          <div class="cite-src">第9回情報科学技術フォーラム (FIT2010), Vol.9, pp. 505-510, 2010年</div>
+        </li>
+      </ol>
+    </div>
+    <span class="pagenum">4 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">System / 1</span>
+    <h1>研究内容① システム概要</h1>
+    <div class="body two-col">
+      <ul class="points">
+        <li><b>①アンケートベースの嗜好分析</b>
+          <span class="sub">初期登録時、料理ジャンルについて5段階評価で回答</span>
+        </li>
+        <li><b>②学習型レコメンド</b>
+          <span class="sub">レビュー投稿のたびに嗜好パラメータを自動更新</span>
+        </li>
+        <li><b>③グループ合意形成支援</b>
+          <span class="sub">メンバー全員の嗜好を集計し、満足度が最大化される店を推薦</span>
+        </li>
+        <li><b>④ソーシャル機能</b>
+          <span class="sub">フレンド・グループチャットで情報共有</span>
+        </li>
+      </ul>
+      <div class="card">
+        <h3>技術スタック</h3>
+        <table class="def">
+          <tr><th>言語/FW</th><td>Ruby on Rails 8</td></tr>
+          <tr><th>DB</th><td>PostgreSQL / Devise認証</td></tr>
+          <tr><th>外部API</th><td>HotPepperグルメサーチAPI</td></tr>
+          <tr><th>非同期処理</th><td>Sidekiq（想定）</td></tr>
+          <tr><th>リアルタイム</th><td>ActionCable（想定）</td></tr>
+        </table>
+      </div>
+    </div>
+    <span class="pagenum">5 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">System / 2</span>
+    <h1>研究内容② データベース設計</h1>
+    <div class="body">
+      <div class="er-groups">
+        <div class="er-group">
+          <h4>① 利用者管理・人間関係</h4>
+          <div class="er-tables">
+            <span class="er-tbl">USERS</span>
+            <span class="er-tbl">FRIENDSHIPS</span>
+            <span class="er-tbl">USER_CUISINE_PREFERENCES</span>
+          </div>
+        </div>
+        <div class="er-group">
+          <h4>② グループ・コミュニケーション</h4>
+          <div class="er-tables">
+            <span class="er-tbl">GROUPS</span>
+            <span class="er-tbl">GROUP_MEMBERS</span>
+            <span class="er-tbl">MESSAGES</span>
+          </div>
+        </div>
+        <div class="er-group">
+          <h4>③ 飲食店・ジャンル情報</h4>
+          <div class="er-tables">
+            <span class="er-tbl">RESTAURANTS</span>
+            <span class="er-tbl">CUISINE_TYPES</span>
+          </div>
+        </div>
+        <div class="er-group">
+          <h4>④ 行動履歴・評価</h4>
+          <div class="er-tables">
+            <span class="er-tbl">REVIEWS</span>
+            <span class="er-tbl">VISIT_HISTORIES</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--muted); margin-top:22px;">全10テーブルを4領域に整理。USER_CUISINE_PREFERENCESがCUISINE_TYPES（③）と紐づき、利用者ごとのジャンル別嗜好スコアを保持する。</p>
+    </div>
+    <span class="pagenum">6 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">System / 3</span>
+    <h1>研究内容③ 推薦アルゴリズム（提案式）</h1>
+    <div class="body">
+      <div class="formula-box">
+        <span class="formula-lhs">R(G,c) =</span>
+        <span class="fraction"><span class="num">A_c</span><span class="den">1 + σ_c</span></span>
+        <span class="formula-cond">min p<sub>i,c</sub> &gt; 1 のときのみ<br>それ以外は R(G,c) = 0</span>
+      </div>
+      <table class="def" style="margin-top:20px;">
+        <tr><th>A_c</th><td>グループ全体のジャンルcへの平均嗜好度</td></tr>
+        <tr><th>σ_c</th><td>グループ内の嗜好の標準偏差（意見のバラつき）</td></tr>
+        <tr><th>p<sub>i,c</sub></th><td>各メンバーiのジャンルcへの嗜好パラメータ（1〜5）</td></tr>
+      </table>
+      <p style="font-size:14px; color:var(--muted); margin-top:16px;">誰か一人でも「1（大嫌い）」をつけたジャンルは候補から除外し、標準偏差が小さい（＝全員が納得している）ジャンルほど高スコアになるよう設計。</p>
+    </div>
+    <span class="pagenum">7 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Progress</span>
+    <h1>これまでの取り組み</h1>
+    <div class="body">
+      <div class="exp-steps">
+        <div class="exp-step"><div class="n">1</div><div class="t"><span class="label">DB・モデル基盤構築</span> — Restaurant / Review / VisitHistory / Group / GroupMembership / Message を含む全10テーブルを新規設計・実装</div></div>
+        <div class="exp-step"><div class="n">2</div><div class="t"><span class="label">機能の実配線</span> — マイページ・訪問履歴・グループ閲覧を実データに接続し、フレンド申請（送信・承認・拒否）フローを実装</div></div>
+        <div class="exp-step"><div class="n">3</div><div class="t"><span class="label">外部API連携</span> — HotPepperグルメサーチAPIと接続し、ジャンルマスタ（17種）取得・実店舗検索・画像取得・キャッシュ保存を実装</div></div>
+        <div class="exp-step"><div class="n">4</div><div class="t"><span class="label">UI・不具合修正</span> — ログイン/ログアウト、登録時の入力不備、レイアウト崩れなど実運用上の不具合を修正</div></div>
+      </div>
+    </div>
+    <span class="pagenum">8 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Next Steps</span>
+    <h1>今後のTodoリスト</h1>
+    <div class="body status-grid">
+      <div class="status-col todo">
+        <h3>機能面</h3>
+        <ul class="check">
+          <li>レコメンドアルゴリズムの実装（個人マッチ率・グループ計算式）</li>
+          <li>グループ作成・メッセージ送信機能</li>
+          <li>レビュー投稿・編集機能</li>
+          <li>予算での検索絞り込み</li>
+        </ul>
+      </div>
+      <div class="status-col todo">
+        <h3>基盤・執筆面</h3>
+        <ul class="check">
+          <li>Sidekiq導入（レビューによる嗜好自動更新）</li>
+          <li>論文本文のジャンル数記述を実装（17ジャンル）に整合</li>
+          <li>ER図・テーブル名称の論文表記統一</li>
+          <li>Gitのブランチ整理・コミット</li>
+        </ul>
+      </div>
+    </div>
+    <span class="pagenum">9 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Experiment</span>
+    <h1>実験方法（効果検証計画）</h1>
+    <div class="body">
+      <p style="font-size:16px; color:var(--muted); margin:0 0 4px;">単純な平均値ベース手法と、提案する「二段階フィルタリング構造」を比較し、有効性を検証する。</p>
+      <div class="method-cards">
+        <div class="method-card">
+          <span class="tag">比較対象</span>
+          <h4>平均値ベースのみ</h4>
+          <p>グループ全員の嗜好パラメータの平均のみでスコアリング。コールドスタートに強いが、少数意見が無視されやすい。</p>
+        </div>
+        <div class="method-card selected" style="grid-column: span 2;">
+          <span class="tag">提案手法：二段階フィルタリング構造</span>
+          <h4>①最小不幸度フィルタ → ②合意形成スコアリング</h4>
+          <p><b>Stage1</b>：メンバーの誰か一人でも「1（大嫌い）」をつけたジャンルを候補から完全に除外する。<br>
+          <b>Stage2</b>：Stage1を通過した候補のみを対象に、平均嗜好度A<sub>c</sub>を標準偏差σ<sub>c</sub>で補正してスコアリング（R(G,c) = A<sub>c</sub>/(1+σ<sub>c</sub>)）。意見が割れているジャンルほどスコアを下げる。</p>
+        </div>
+      </div>
+      <div class="exp-steps" style="margin-top:22px;">
+        <div class="exp-step"><div class="n">1</div><div class="t">ゼミ内メンバー等の小規模グループに実際にアプリを利用してもらう</div></div>
+        <div class="exp-step"><div class="n">2</div><div class="t">同一グループ・同一嗜好データに対し、平均値ベースのみの推薦結果と、二段階フィルタリング構造による推薦結果をそれぞれ提示</div></div>
+        <div class="exp-step"><div class="n">3</div><div class="t">グループ全体の満足度・最小満足度・標準偏差をアンケートおよび定量指標で比較</div></div>
+      </div>
+    </div>
+    <span class="pagenum">10 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Schedule</span>
+    <h1>計画表</h1>
+    <div class="body">
+      <table class="sched">
+        <tr><th>時期</th><th>内容</th></tr>
+        <tr><td>〜8月</td><td>レコメンドアルゴリズム実装、実験計画の詳細設計</td></tr>
+        <tr><td>9月</td><td>グループ作成・レビュー投稿機能を実装し、実験環境を完成させる</td></tr>
+        <tr><td>10月</td><td>被験者実験を実施し、比較手法A・B・提案手法のデータを収集</td></tr>
+        <tr><td>11月</td><td>実験結果を分析し、論文の実装・実験章を執筆</td></tr>
+        <tr><td>12月</td><td>論文全体の推敲、最終発表準備</td></tr>
+        <tr><td>1月</td><td>論文提出・最終発表</td></tr>
+      </table>
+    </div>
+    <span class="pagenum">11 / 12</span>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Summary</span>
+    <h1>まとめ</h1>
+    <div class="body">
+      <div class="summary-list">
+        <div class="row"><span class="idx">01</span><span class="txt">個人の嗜好とグループの総意を両立する飲食店推薦システムを設計・実装中</span></div>
+        <div class="row"><span class="idx">02</span><span class="txt">DB基盤構築・実機能配線・HotPepper API連携までの土台部分が完了</span></div>
+        <div class="row"><span class="idx">03</span><span class="txt">論文第4章で提案した合意形成スコアリング式の実装と、他手法との比較実験が今後の中心課題</span></div>
+        <div class="row"><span class="idx">04</span><span class="txt">実験を通じて、提案手法がグループ全体の満足度向上に寄与することを定量的に示すことを目指す</span></div>
+      </div>
+    </div>
+    <span class="pagenum">12 / 12</span>
+  </section>
+
+</div>
+
+<div class="nav-hint">↓ / ↑ キーまたはスクロールでスライド移動</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  document.addEventListener('keydown', (e) => {
+    const current = slides.findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -10 && r.top < window.innerHeight / 2;
+    });
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      const next = slides[Math.min(current + 1, slides.length - 1)];
+      next.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      const prev = slides[Math.max(current - 1, 0)];
+      prev.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>

@@ -28,6 +28,15 @@ Rails.application.configure do
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
+  # Windows環境でPumaの複数スレッドが同時にtmp/cache/assetsへ書き込むと
+  # File.rename周りでErrno::EACCESが発生することがあるため、
+  # Sprocketsのキャッシュはファイルではなくメモリ上に保持する。
+  # （sprockets-railsが tmp/cache/assets にFileStoreを設定した"後"に
+  #   このブロックが実行されるよう、config.assets.configure で上書きする）
+  config.assets.configure do |env|
+    env.cache = Sprockets::Cache::MemoryStore.new
+  end
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 

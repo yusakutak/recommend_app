@@ -1,0 +1,77 @@
+<% detail = @restaurant.detail %>
+
+<%= link_to "&#8592; 検索結果へ".html_safe, search_path %>
+
+<div class="app-card">
+  <div class="app-card-thumb" style="height:200px; font-size:4em;">
+    <% if @restaurant.image_url.present? %>
+      <%= image_tag @restaurant.image_url, alt: @restaurant.name %>
+    <% else %>
+      &#127860;
+    <% end %>
+  </div>
+  <h1 style="text-align:left;"><%= @restaurant.name %></h1>
+  <p><%= @restaurant.category.category %>　&#128205; <%= @restaurant.address %></p>
+  <% if detail[:catch].present? %>
+    <p class="text-muted"><em>“<%= detail[:catch] %>”</em></p>
+  <% end %>
+</div>
+
+<div class="app-card">
+  <strong>基本情報</strong>
+  <hr>
+  <table class="table" style="margin-bottom:0;">
+    <% if detail[:budget].present? %>
+      <tr><th style="width:120px;">予算</th><td><%= detail[:budget] %><%= " (#{detail[:budget_average]})" if detail[:budget_average].present? %></td></tr>
+    <% end %>
+    <% if detail[:open].present? %>
+      <tr><th>営業時間</th><td><%= detail[:open] %></td></tr>
+    <% end %>
+    <% if detail[:close].present? %>
+      <tr><th>定休日</th><td><%= detail[:close] %></td></tr>
+    <% end %>
+    <% if detail[:access].present? %>
+      <tr><th>アクセス</th><td><%= detail[:access] %></td></tr>
+    <% end %>
+    <% if detail[:capacity].present? %>
+      <tr><th>席数</th><td><%= detail[:capacity] %>席</td></tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="app-card">
+  <strong>設備・特徴</strong>
+  <hr>
+  <div class="row">
+    <% [
+      [ "カード", detail[:card] ],
+      [ "禁煙・喫煙", detail[:non_smoking] ],
+      [ "個室", detail[:private_room] ],
+      [ "駐車場", detail[:parking] ],
+      [ "子供連れ", detail[:child] ],
+      [ "Wi-Fi", detail[:wifi] ],
+    ].each do |label, value| %>
+      <% next if value.blank? %>
+      <div class="col-xs-6 col-sm-4" style="margin-bottom:10px;">
+        <small class="text-muted"><%= label %></small><br>
+        <%= value %>
+      </div>
+    <% end %>
+  </div>
+  <% if detail[:hotpepper_url].present? %>
+    <hr>
+    <%= link_to "HOT PEPPERで詳細確認・予約", detail[:hotpepper_url], target: "_blank", rel: "noopener", class: "btn btn-default" %>
+  <% end %>
+</div>
+
+<div class="app-card">
+  <strong>他のユーザーのレビュー</strong>
+  <hr>
+  <% if @restaurant.reviews.empty? %>
+    <p class="text-muted">まだレビューがありません。</p>
+  <% else %>
+    <% @restaurant.reviews.each do |review| %>
+      <p><%= "★" * review.rating %> <%= review.comment %></p>
+    <% end %>
+  <% end %>
+</div>

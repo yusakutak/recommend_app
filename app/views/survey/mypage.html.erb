@@ -1,18 +1,76 @@
-<div class="center jumbotron">
-  <h1>今日のご飯決めたろう</h1>
-
-<div class="square-container">
-    <div class="row">
-      <% 6.times do |i| %>
-        <div class="col-6 col-md-4 col-lg-2">
-          <div class="square-box d-flex align-items-center justify-content-center">
-            
-            <span><%= "#" %></span>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
+<div class="center">
+  <h1>今日の食事決めたろう</h1>
 </div>
 
+<%= link_to search_path, class: "app-card", style: "display:block; text-align:center; background-color:#000; color:white; font-size:1.2em; margin-bottom:25px;" do %>
+  飲食店を検索
+<% end %>
+
+<div class="row">
+  <div class="col-xs-6 col-sm-3">
+    <%= link_to friends_path, class: "nav-panel nav-panel-blue" do %>
+      フレンド
+      <span class="nav-panel-count"><%= @friends_count %>人</span>
+    <% end %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= link_to groups_path, class: "nav-panel nav-panel-purple" do %>
+      グループ
+      <span class="nav-panel-count"><%= @groups_count %>グループ</span>
+    <% end %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= link_to form_path, class: "nav-panel nav-panel-green" do %>
+      食事嗜好
+      <span class="nav-panel-count">アンケート <%= @answered_count %>/<%= @total_categories %></span>
+    <% end %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= link_to visit_histories_path, class: "nav-panel nav-panel-orange" do %>
+      訪問履歴
+      <span class="nav-panel-count">フィードバック</span>
+    <% end %>
+  </div>
+</div>
+
+<h3>あなたへのおすすめ</h3>
+<p class="text-muted">あなたの嗜好に合わせた飲食店</p>
+<% if @recommended_restaurants.empty? %>
+  <p class="text-muted">まだおすすめできる飲食店がありません。飲食店を検索してみてください。</p>
+<% else %>
+  <div class="restaurant-grid">
+    <% @recommended_restaurants.each do |restaurant| %>
+      <div class="restaurant-grid-item">
+        <%= link_to restaurant_path(restaurant), style: "display:block;" do %>
+          <div class="app-card">
+            <div class="app-card-thumb">
+              <% if restaurant.image_url.present? %>
+                <%= image_tag restaurant.image_url, alt: restaurant.name %>
+              <% else %>
+                &#127860;
+              <% end %>
+            </div>
+            <strong><%= restaurant.name %></strong><br>
+            <%= restaurant.category.category %><br>
+            <small class="text-muted"><%= restaurant.address %></small>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-sm-6">
+    <%= link_to visit_histories_path, class: "app-card", style: "display:block; text-align:center; background-color:#000; color:white;" do %>
+      フィードバック<br>
+      <small>レビューを投稿</small>
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+    <%= link_to user_path(current_user), class: "app-card", style: "display:block; text-align:center; background-color:#000; color:white;" do %>
+      嗜好パラメータ<br>
+      <small>あなたの好み</small>
+    <% end %>
+  </div>
+</div>

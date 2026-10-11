@@ -1,0 +1,58 @@
+<%= link_to "&#8592; グループ一覧".html_safe, groups_path %>
+
+<div class="center">
+  <h1><%= @group.name %></h1>
+  <h2><%= @group.users.size %>人のメンバー</h2>
+</div>
+
+<%= form_with url: group_path(@group), method: :get, local: true do |f| %>
+  <div class="app-card">
+    <strong>条件を指定しておすすめを絞り込む</strong>
+    <div class="field" style="margin-top:10px;">
+      <label>エリア</label>
+      <%= f.text_field :area, value: @area, placeholder: "例: 吉祥寺、新宿など", class: "form-control" %>
+    </div>
+    <div class="field">
+      <label>価格帯</label>
+      <div class="genre-checkbox-grid" style="max-height:none;">
+        <label class="genre-checkbox-item">
+          <%= radio_button_tag :budget_code, "", @budget_code.blank? %>
+          指定なし
+        </label>
+        <% @budget_options.each do |label, code| %>
+          <label class="genre-checkbox-item">
+            <%= radio_button_tag :budget_code, code, @budget_code == code %>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+    <%= f.submit "この条件でおすすめを更新", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<h3>グループへのおすすめ</h3>
+<% if @recommended_restaurants.empty? %>
+  <p class="text-muted">メンバー全員が回答済みのジャンルがまだ無いか、条件に一致する飲食店が見つかりませんでした。</p>
+<% else %>
+  <div class="restaurant-grid">
+    <% @recommended_restaurants.each do |restaurant| %>
+      <div class="restaurant-grid-item">
+        <%= link_to restaurant_path(restaurant), style: "display:block;" do %>
+          <div class="app-card">
+            <div class="app-card-thumb">
+              <% if restaurant.image_url.present? %>
+                <%= image_tag restaurant.image_url, alt: restaurant.name %>
+              <% else %>
+                &#127860;
+              <% end %>
+            </div>
+            <strong><%= restaurant.name %></strong><br>
+            <%= restaurant.category.category %><br>
+            <small class="text-muted"><%= restaurant.address %></small>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

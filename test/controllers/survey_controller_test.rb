@@ -13,6 +13,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
 
 
   test "should get form" do
+    sign_in users(:one)
     get form_path
     assert_response :success
     assert_select "title", "#{@base_title}"

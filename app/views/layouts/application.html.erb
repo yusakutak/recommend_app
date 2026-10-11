@@ -4,6 +4,9 @@
   <body>
    <%= render "layouts/header" %>
     <div class="container">
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type == "notice" ? "success" : "warning" %>"><%= message %></div>
+      <% end %>
       <%= yield %>
     </div>
   </body>

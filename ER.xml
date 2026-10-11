@@ -1,0 +1,235 @@
+<mxfile host="app.diagrams.net" modified="2026-07-30T18:46:00" agent="Copilot" version="20.0.0" type="device">
+  <diagram id="er-diagram-1" name="ER図">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="1200">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- USERS (center) -->
+        <mxCell id="users" value="USERS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="700" y="300" width="220" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="users_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="users">
+          <mxGeometry y="30" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="users_row2" value="name  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="users">
+          <mxGeometry y="60" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="users_row3" value="email  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="users">
+          <mxGeometry y="90" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="users_row4" value="encrypted_password  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="users">
+          <mxGeometry y="120" width="220" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- CATEGORIES (left top) -->
+        <mxCell id="categories" value="CATEGORIES" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="300" y="200" width="220" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="categories_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="categories">
+          <mxGeometry y="30" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="categories_row2" value="category  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="categories">
+          <mxGeometry y="60" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="categories_row3" value="code  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="categories">
+          <mxGeometry y="90" width="220" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- PREFERENCES (left middle) -->
+        <mxCell id="preferences" value="PREFERENCES" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="300" y="360" width="260" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="preferences_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="preferences">
+          <mxGeometry y="30" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="preferences_row2" value="user_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="preferences">
+          <mxGeometry y="60" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="preferences_row3" value="category_id  int  FK → categories" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="preferences">
+          <mxGeometry y="90" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="preferences_row4" value="preference  int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="preferences">
+          <mxGeometry y="120" width="260" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- RELATIONSHIPS (left bottom) -->
+        <mxCell id="relationships" value="RELATIONSHIPS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="300" y="540" width="260" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="relationships_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="relationships">
+          <mxGeometry y="30" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="relationships_row2" value="follower_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="relationships">
+          <mxGeometry y="60" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="relationships_row3" value="followed_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="relationships">
+          <mxGeometry y="90" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="relationships_row4" value="status  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="relationships">
+          <mxGeometry y="120" width="260" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- GROUPS (right top) -->
+        <mxCell id="groups" value="GROUPS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="200" width="240" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="groups_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="groups">
+          <mxGeometry y="30" width="240" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="groups_row2" value="name  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="groups">
+          <mxGeometry y="60" width="240" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="groups_row3" value="description  text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="groups">
+          <mxGeometry y="90" width="240" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- GROUP_MEMBERSHIPS (right middle) -->
+        <mxCell id="group_memberships" value="GROUP_MEMBERSHIPS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="360" width="280" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="group_memberships_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="group_memberships">
+          <mxGeometry y="30" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="group_memberships_row2" value="group_id  int  FK → groups" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="group_memberships">
+          <mxGeometry y="60" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="group_memberships_row3" value="user_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="group_memberships">
+          <mxGeometry y="90" width="280" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- MESSAGES (right bottom) -->
+        <mxCell id="messages" value="MESSAGES" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="540" width="280" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="messages_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="messages">
+          <mxGeometry y="30" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="messages_row2" value="group_id  int  FK → groups" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="messages">
+          <mxGeometry y="60" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="messages_row3" value="user_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="messages">
+          <mxGeometry y="90" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="messages_row4" value="content  text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="messages">
+          <mxGeometry y="120" width="280" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- RESTAURANTS (bottom center) -->
+        <mxCell id="restaurants" value="RESTAURANTS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="650" y="540" width="320" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="30" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row2" value="name  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="60" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row3" value="category_id  int  FK → categories" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="90" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row4" value="address  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="120" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row5" value="latitude  float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="150" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row6" value="longitude  float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="180" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row7" value="phone  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="210" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row8" value="description  text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="240" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row9" value="shop_id  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="270" width="320" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="restaurants_row10" value="image_url  string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="restaurants">
+          <mxGeometry y="300" width="320" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- REVIEWS (bottom left) -->
+        <mxCell id="reviews" value="REVIEWS" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="450" y="820" width="260" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="reviews_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="reviews">
+          <mxGeometry y="30" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="reviews_row2" value="user_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="reviews">
+          <mxGeometry y="60" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="reviews_row3" value="restaurant_id  int  FK → restaurants" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="reviews">
+          <mxGeometry y="90" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="reviews_row4" value="rating  int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="reviews">
+          <mxGeometry y="120" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="reviews_row5" value="comment  text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="reviews">
+          <mxGeometry y="150" width="260" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- VISIT_HISTORIES (bottom right) -->
+        <mxCell id="visit_histories" value="VISIT_HISTORIES" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="850" y="820" width="280" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="visit_histories_row1" value="id  int  PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="visit_histories">
+          <mxGeometry y="30" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="visit_histories_row2" value="user_id  int  FK → users" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="visit_histories">
+          <mxGeometry y="60" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="visit_histories_row3" value="restaurant_id  int  FK → restaurants" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="visit_histories">
+          <mxGeometry y="90" width="280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="visit_histories_row4" value="visited_on  date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontColor=#000000;" vertex="1" parent="visit_histories">
+          <mxGeometry y="120" width="280" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- EDGES (relations) -->
+        <mxCell id="edge_users_categories" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="categories">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_users_preferences" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="preferences">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_users_relationships" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="relationships">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_users_groups" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="groups">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_groups_group_memberships" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="groups" target="group_memberships">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_groups_messages" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="groups" target="messages">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_users_restaurants" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="restaurants">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_categories_restaurants" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="categories" target="restaurants">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_restaurants_reviews" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="restaurants" target="reviews">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_users_reviews" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="reviews">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_restaurants_visit_histories" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="restaurants" target="visit_histories">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_users_visit_histories" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="users" target="visit_histories">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

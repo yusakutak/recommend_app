@@ -1,22 +1,32 @@
-<h1>今日のご飯決めたろう</h1>
-<%= form_with url: search_path, method: :get, local: true do |f| %>
-  <div class="field">
-    <%= f.label :keyword, "検索" %>
-    <%= f.text_field :keyword, placeholder: "キーワードを入力", class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= f.submit "検索", class: "btn btn-primary" %>
-  </div>
-<% end %>
+<div class="center">
+  <h1>食事嗜好アンケート</h1>
+  <h2>回答率: <%= @preferences_by_category_id.size %>/<%= @categories.size %>項目</h2>
+</div>
 
-<%= form_with url: form_path, local: true do |f| %>
-  
-  <div class="actions">
-    <%= link_to "フレンドリスト", friends_path, class: "btn btn-primary" %>
-  </div>
-    <div class="actions">
-        <%= link_to "グループ", groups_path, class: "btn btn-primary" %>
+<div class="app-card" style="background-color:#e9f7ef;">
+  食事の好みを教えてください。あなたの好みを知ることで、より最適な飲食店をおすすめできます。
+</div>
+
+<%= form_with url: form_path, method: :patch, local: true do %>
+  <% @categories.each_with_index do |category, index| %>
+    <div class="app-card">
+      <strong><%= index + 1 %>. <%= category.category %></strong>
+
+      <% current_value = @preferences_by_category_id[category.id]&.preference %>
+      <div class="row" style="margin-top:10px;">
+        <% SurveyController::PREFERENCE_LABELS.each do |value, label| %>
+          <div class="col-xs-12 col-sm-2">
+            <label>
+              <%= radio_button_tag "preferences[#{category.id}]", value, current_value == value %>
+              <%= label %>
+            </label>
+          </div>
+        <% end %>
+      </div>
     </div>
-    <div class="actions">
-        <%= link_to "食事アンケート", user_path(current_user), class: "btn btn-primary" %>
+  <% end %>
+
+  <div class="actions center">
+    <%= submit_tag "アンケート結果を保存", class: "btn btn-primary btn-lg" %>
+  </div>
 <% end %>
